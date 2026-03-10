@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kingcoctions — Cocktail Programs That Drive Revenue</title>
+<meta name="description" content="Menu development, training, and launch support for operators who want better drinks, faster service, and stronger margins. Based in Vancouver.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ─── Warm, rich palette ─── */
+  --black: #0d0b09;
+  --dark: #171411;
+  --dark-card: #1e1a16;
+  --dark-warm: #231e19;
+  --warm-bg: #f2ebe3;
+  --warm-bg-alt: #ebe3d9;
+  --cream: #e8dfd4;
+  --gold: #c4935a;
+  --gold-light: #d4a96a;
+  --gold-dim: rgba(196, 147, 90, 0.15);
+  --copper: #b87333;
+  --burgundy: #6b2d3e;
+  --burgundy-soft: rgba(107, 45, 62, 0.15);
+  --text-light: #f5f0eb;
+  --text-muted: #a09890;
+  --text-dark: #1e1a16;
+  --text-dark-muted: #6b6560;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Manrope', system-ui, sans-serif;
+  --nav-height: 72px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--black);
+  color: var(--text-light);
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ─── Utility ─── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 64px);
+}
+
+.section-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: inline-block;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+/* ─── Reveal Animations ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ─── Navigation ─── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  z-index: 1000;
+  transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+}
+.nav.scrolled {
+  background: rgba(13, 11, 9, 0.92);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 1px 0 rgba(196, 147, 90, 0.1);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 64px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-light);
+  letter-spacing: -0.01em;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  color: var(--gold) !important;
+  border: 1px solid var(--gold);
+  padding: 10px 24px;
+  transition: background 0.3s, color 0.3s !important;
+}
+.nav-cta:hover {
+  background: var(--gold);
+  color: var(--black) !important;
+}
+
+/* Mobile menu */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+}
+.nav-toggle span {
+  width: 24px;
+  height: 1.5px;
+  background: var(--text-light);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(13, 11, 9, 0.97);
+    backdrop-filter: blur(20px);
+    padding: 48px 32px;
+    gap: 32px;
+  }
+  .nav-links.open a { font-size: 16px; }
+}
+
+/* ─── Hero with Video ─── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: clamp(64px, 10vh, 120px);
+  padding-top: var(--nav-height);
+  overflow: hidden;
+}
+.hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(13,11,9,0.4) 0%, rgba(13,11,9,0.15) 35%, rgba(13,11,9,0.6) 65%, rgba(13,11,9,1) 100%),
+    linear-gradient(90deg, rgba(13,11,9,0.5) 0%, transparent 60%);
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 1s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+  max-width: 900px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 1s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-sub {
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(245, 240, 235, 0.7);
+  max-width: 560px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 1s 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 1s 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--gold);
+  color: var(--black);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 18px 36px;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+.btn-primary svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s;
+}
+.btn-primary:hover svg { transform: translateX(4px); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  color: var(--text-light);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 18px 36px;
+  border: 1px solid rgba(245, 240, 235, 0.25);
+  transition: border-color 0.3s, color 0.3s;
+}
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  color: var(--text-dark);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 18px 36px;
+  border: 1px solid var(--text-dark);
+  transition: background 0.3s, color 0.3s;
+}
+.btn-outline-dark:hover {
+  background: var(--text-dark);
+  color: var(--warm-bg);
+}
+
+/* ─── Scrolling Ticker ─── */
+.ticker-wrap {
+  background: var(--gold);
+  padding: 16px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker {
+  display: inline-flex;
+  animation: ticker 30s linear infinite;
+}
+.ticker span {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 400;
+  color: var(--black);
+  padding: 0 24px;
+}
+.ticker .dot {
+  font-size: clamp(18px, 2.5vw, 28px);
+  color: var(--black);
+  opacity: 0.4;
+}
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ─── About / Meet Ben ─── */
+.about {
+  padding: clamp(80px, 12vh, 160px) 0;
+  background: var(--dark);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 6vw, 100px);
+  align-items: center;
+}
+.about-image {
+  position: relative;
+  overflow: hidden;
+}
+.about-image img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  object-position: center top;
+}
+.about-image::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  right: -16px;
+  width: 180px;
+  height: 180px;
+  border: 1px solid var(--gold);
+  opacity: 0.15;
+  pointer-events: none;
+}
+.about-text .section-title {
+  font-size: clamp(36px, 5vw, 56px);
+  margin-bottom: 32px;
+  color: var(--text-light);
+}
+.about-text p {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.about-text p strong {
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* ─── Recognition ─── */
+.recognition {
+  padding: clamp(56px, 8vh, 96px) 0;
+  background: var(--dark-warm);
+  position: relative;
+  overflow: hidden;
+}
+.recognition::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.3;
+}
+.recognition::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.3;
+}
+.recognition-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.recognition-item {
+  padding: clamp(24px, 4vw, 48px) clamp(16px, 3vw, 32px);
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.recognition-item + .recognition-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 1px;
+  background: rgba(196, 147, 90, 0.15);
+}
+.recognition-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.recognition-icon svg {
+  width: 36px;
+  height: 36px;
+  color: var(--gold);
+}
+.recognition-title {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 400;
+  color: var(--text-light);
+  line-height: 1.3;
+}
+.recognition-desc {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .recognition-grid { grid-template-columns: repeat(2, 1fr); }
+  .recognition-item:nth-child(3)::before { display: none; }
+  .recognition-item:nth-child(3),
+  .recognition-item:nth-child(4) {
+    border-top: 1px solid rgba(196, 147, 90, 0.1);
+  }
+}
+
+/* ─── Services ─── */
+.services {
+  padding: clamp(80px, 12vh, 160px) 0;
+  background: var(--warm-bg);
+  color: var(--text-dark);
+  position: relative;
+}
+/* Subtle warm gradient at top */
+.services::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(180deg, var(--warm-bg-alt) 0%, var(--warm-bg) 100%);
+  pointer-events: none;
+}
+.services .container { position: relative; }
+.services-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: clamp(48px, 6vh, 80px);
+}
+.services-header .section-title {
+  font-size: clamp(36px, 5vw, 56px);
+  color: var(--text-dark);
+}
+.accordion-item {
+  border-top: 1px solid rgba(30, 26, 22, 0.12);
+}
+.accordion-item:last-child {
+  border-bottom: 1px solid rgba(30, 26, 22, 0.12);
+}
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 0;
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 400;
+  color: var(--text-dark);
+  transition: color 0.3s;
+}
+.accordion-trigger:hover { color: var(--gold); }
+.accordion-icon {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(30, 26, 22, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.3s, transform 0.4s;
+}
+.accordion-trigger:hover .accordion-icon { border-color: var(--gold); }
+.accordion-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.accordion-item.open .accordion-icon svg {
+  transform: rotate(45deg);
+}
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.accordion-body-inner {
+  padding: 0 0 32px 0;
+  max-width: 640px;
+}
+.accordion-body-inner p {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-dark-muted);
+}
+
+/* ─── What I Build (Pillars) ─── */
+.pillars {
+  padding: clamp(80px, 12vh, 160px) 0;
+  background: var(--dark);
+}
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-top: clamp(48px, 6vh, 80px);
+}
+.pillar-card {
+  background: var(--dark-card);
+  padding: clamp(24px, 3vw, 40px);
+  padding-top: clamp(32px, 4vw, 56px);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+.pillar-card:hover { background: var(--dark-warm); }
+.pillar-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--copper));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pillar-card:hover::before { transform: scaleX(1); }
+.pillar-number {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 300;
+  color: rgba(196, 147, 90, 0.15);
+  margin-bottom: 24px;
+  line-height: 1;
+}
+.pillar-title {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 400;
+  color: var(--text-light);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+.pillar-desc {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .pillars-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .pillars-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── Who I Work With ─── */
+.clients {
+  padding: clamp(80px, 12vh, 160px) 0;
+  background: var(--dark-warm);
+}
+.clients-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 6vw, 100px);
+  align-items: start;
+  margin-top: clamp(48px, 6vh, 80px);
+}
+.clients-left .section-title {
+  font-size: clamp(36px, 5vw, 56px);
+  color: var(--text-light);
+  margin-bottom: 24px;
+}
+.clients-left p {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+}
+.client-accordion .accordion-item {
+  border-color: rgba(245, 240, 235, 0.08);
+}
+.client-accordion .accordion-trigger {
+  color: var(--text-light);
+  font-size: clamp(20px, 2.2vw, 28px);
+}
+.client-accordion .accordion-icon {
+  border-color: rgba(245, 240, 235, 0.15);
+}
+.client-accordion .accordion-body-inner p {
+  color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .clients-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── My Approach ─── */
+.approach {
+  padding: clamp(80px, 12vh, 160px) 0;
+  background: var(--warm-bg);
+  color: var(--text-dark);
+  position: relative;
+}
+.approach::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(180deg, var(--warm-bg-alt) 0%, var(--warm-bg) 100%);
+  pointer-events: none;
+}
+.approach .container { position: relative; }
+.approach-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 6vw, 100px);
+  align-items: start;
+}
+.approach-left .section-title {
+  font-size: clamp(36px, 5vw, 56px);
+  color: var(--text-dark);
+  margin-bottom: 24px;
+}
+.approach-left p {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-dark-muted);
+}
+.approach-steps {
+  counter-reset: step;
+}
+.approach-step {
+  border-top: 1px solid rgba(30, 26, 22, 0.12);
+  padding: 28px 0;
+  cursor: pointer;
+}
+.approach-step:last-child {
+  border-bottom: 1px solid rgba(30, 26, 22, 0.12);
+}
+.approach-step-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.approach-step-num {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gold);
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.approach-step-title {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 400;
+  color: var(--text-dark);
+  flex: 1;
+}
+.approach-step-arrow {
+  width: 20px;
+  height: 20px;
+  color: var(--text-dark-muted);
+  transition: transform 0.4s, color 0.3s;
+}
+.approach-step.open .approach-step-arrow {
+  transform: rotate(180deg);
+  color: var(--gold);
+}
+.approach-step-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.approach-step-body-inner {
+  padding: 16px 0 8px 52px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-dark-muted);
+}
+
+@media (max-width: 768px) {
+  .approach-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── Career Highlights ─── */
+.highlights {
+  padding: clamp(72px, 10vh, 120px) 0;
+  background: var(--black);
+  position: relative;
+}
+.highlights::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(196,147,90,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.highlights .container { position: relative; }
+.highlights-header {
+  text-align: center;
+  margin-bottom: clamp(48px, 6vh, 72px);
+}
+.highlights-header .section-title {
+  font-size: clamp(28px, 3vw, 40px);
+  color: var(--text-light);
+}
+.highlights-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(40px, 8vw, 100px);
+  flex-wrap: wrap;
+}
+.highlights-logo {
+  height: clamp(44px, 5vw, 64px);
+  opacity: 0.6;
+  transition: opacity 0.4s, transform 0.3s;
+}
+.highlights-logo:hover { opacity: 1; transform: scale(1.05); }
+.highlights-logo-text {
+  font-family: var(--serif);
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  color: var(--text-light);
+  opacity: 0.6;
+  transition: opacity 0.4s;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.highlights-logo-text:hover { opacity: 1; }
+
+@media (max-width: 480px) {
+  .highlights-logos { gap: 32px; }
+  .highlights-logo { height: 40px; }
+  .highlights-logo-text { font-size: 20px; }
+}
+
+/* ─── Contact ─── */
+.contact {
+  padding: clamp(80px, 12vh, 160px) 0 clamp(60px, 8vh, 100px);
+  background: var(--warm-bg);
+  color: var(--text-dark);
+  position: relative;
+}
+.contact::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(180deg, var(--warm-bg-alt) 0%, var(--warm-bg) 100%);
+  pointer-events: none;
+}
+.contact .container { position: relative; }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 6vw, 100px);
+  align-items: start;
+}
+.contact-left .section-title {
+  font-size: clamp(36px, 5vw, 56px);
+  color: var(--text-dark);
+  margin-bottom: 24px;
+}
+.contact-left p {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-dark-muted);
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dark-muted);
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(30, 26, 22, 0.2);
+  padding: 12px 0;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color 0.3s;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--gold);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(30, 26, 22, 0.3);
+}
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.form-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.service-tag {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 400;
+  border: 1px solid rgba(30, 26, 22, 0.15);
+  color: var(--text-dark-muted);
+  cursor: pointer;
+  transition: all 0.3s;
+  user-select: none;
+}
+.service-tag:hover,
+.service-tag.active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(196, 147, 90, 0.08);
+}
+.form-submit {
+  margin-top: 8px;
+}
+.form-submit .btn-primary {
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* ─── Footer ─── */
+.footer {
+  padding: 48px 0;
+  background: var(--black);
+  border-top: 1px solid rgba(196, 147, 90, 0.08);
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-logo {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-light);
+}
+.footer-right {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.footer-right a {
+  color: var(--gold);
+  transition: opacity 0.3s;
+}
+.footer-right a:hover { opacity: 0.7; }
+
+@media (max-width: 768px) {
+  .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+  .services-header { flex-direction: column; align-items: flex-start; gap: 24px; }
+}
+
+/* ─── Film grain overlay ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Kingcoctions</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#approach">Approach</a></li>
+      <li><a href="#contact" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-video-wrap">
+    <video autoplay muted loop playsinline>
+      <source src="assets/hero-video.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <p class="hero-eyebrow">Vancouver-Based Beverage Consulting</p>
+    <h1>Cocktail Programs<br>That Drive <em>Revenue</em></h1>
+    <p class="hero-sub">Menu development, training, and launch support for operators who want better drinks, faster service, and stronger margins.</p>
+    <div class="hero-cta-row">
+      <a href="#contact" class="btn-primary">
+        Book a Call
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+      <a href="#services" class="btn-outline">See Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TICKER ═══ -->
+<div class="ticker-wrap">
+  <div class="ticker" id="ticker">
+    <span>Menu Development</span><span class="dot">✦</span>
+    <span>Service Design</span><span class="dot">✦</span>
+    <span>Launch Support</span><span class="dot">✦</span>
+    <span>Beverage Programs</span><span class="dot">✦</span>
+    <span>Prep Systems</span><span class="dot">✦</span>
+    <span>Bar Design</span><span class="dot">✦</span>
+    <span>Team Training</span><span class="dot">✦</span>
+    <span>Operational Build</span><span class="dot">✦</span>
+    <span>Menu Development</span><span class="dot">✦</span>
+    <span>Service Design</span><span class="dot">✦</span>
+    <span>Launch Support</span><span class="dot">✦</span>
+    <span>Beverage Programs</span><span class="dot">✦</span>
+    <span>Prep Systems</span><span class="dot">✦</span>
+    <span>Bar Design</span><span class="dot">✦</span>
+    <span>Team Training</span><span class="dot">✦</span>
+    <span>Operational Build</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image reveal">
+        <img src="assets/ben-headshot.jpg" alt="Ben Kingstone — Beverage Director" loading="lazy">
+      </div>
+      <div class="about-text">
+        <span class="section-label reveal">Meet Ben</span>
+        <h2 class="section-title reveal reveal-delay-1">Built for<br>Busy Nights</h2>
+        <p class="reveal reveal-delay-2">I'm <strong>Ben Kingstone</strong>, a beverage director and operator based in Vancouver. I build cocktail programs that perform on busy nights, not just in photos — with clear specs, prep systems, and training that improves speed, consistency, and margins.</p>
+        <p class="reveal reveal-delay-3">Every program I design is built to be repeatable by any solid team, profitable from day one, and aligned with the space it lives in.</p>
+        <div class="reveal reveal-delay-4" style="margin-top: 32px;">
+          <a href="#contact" class="btn-outline">Let's Talk</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RECOGNITION ─── -->
+<section class="recognition">
+  <div class="container">
+    <div class="recognition-grid">
+      <div class="recognition-item reveal">
+        <div class="recognition-icon">
+          <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M18 2l4.5 9.1 10 1.5-7.2 7 1.7 10-9-4.7-9 4.7 1.7-10-7.2-7 10-1.5z"/>
+          </svg>
+        </div>
+        <div class="recognition-title">Top 30 Under 30</div>
+        <div class="recognition-desc">Hospitality Magazine</div>
+      </div>
+      <div class="recognition-item reveal reveal-delay-1">
+        <div class="recognition-icon">
+          <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="18" cy="18" r="14"/>
+            <path d="M12 18l4 4 8-8"/>
+          </svg>
+        </div>
+        <div class="recognition-title">World Class Canada</div>
+        <div class="recognition-desc">National Finalist</div>
+      </div>
+      <div class="recognition-item reveal reveal-delay-2">
+        <div class="recognition-icon">
+          <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="4" y="6" width="28" height="20" rx="2"/>
+            <path d="M4 12h28M12 6v20"/>
+          </svg>
+        </div>
+        <div class="recognition-title">National Media</div>
+        <div class="recognition-desc">Featured Programs</div>
+      </div>
+      <div class="recognition-item reveal reveal-delay-3">
+        <div class="recognition-icon">
+          <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M18 4v8M10 8l4 6M26 8l-4 6"/>
+            <path d="M6 18h24M8 24h20M10 30h16"/>
+          </svg>
+        </div>
+        <div class="recognition-title">Award-Recognized</div>
+        <div class="recognition-desc">Beverage Teams Led</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-header">
+      <div>
+        <span class="section-label reveal">What I Do</span>
+        <h2 class="section-title reveal reveal-delay-1">My Services</h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <a href="#contact" class="btn-outline-dark">Work Together</a>
+      </div>
+    </div>
+
+    <div class="accordion" id="servicesAccordion">
+      <div class="accordion-item reveal">
+        <button class="accordion-trigger" data-accordion>
+          Beverage Program Design
+          <span class="accordion-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v12M1 7h12"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Full beverage direction built for real service. Cocktails, spirits, beer, wine, and non-alcoholic, designed as one cohesive program with clear standards, pricing, and profitability in mind.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item reveal reveal-delay-1">
+        <button class="accordion-trigger" data-accordion>
+          Menu Development &amp; Costing
+          <span class="accordion-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v12M1 7h12"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Concept to final menu. I develop the menu, build clean specs, cost every item, set pricing logic, and align the list to your kitchen, your service style, and your targets.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item reveal reveal-delay-2">
+        <button class="accordion-trigger" data-accordion>
+          Prep Systems &amp; Operational Build
+          <span class="accordion-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v12M1 7h12"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>The behind the scenes is the product. Batching plans, prep lists, par levels, station setup, glassware, ice, and service workflows that make the menu repeatable with any solid team.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item reveal reveal-delay-3">
+        <button class="accordion-trigger" data-accordion>
+          Bar &amp; Venue Design
+          <span class="accordion-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v12M1 7h12"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>A bar should be designed around flow. Layout, stations, storage, equipment selection, and guest flow so the room runs faster, cleaner, and with less staffing pressure.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item reveal reveal-delay-4">
+        <button class="accordion-trigger" data-accordion>
+          Training &amp; Launch Support
+          <span class="accordion-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v12M1 7h12"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Training systems, opening playbooks, and hands-on rollout support. I help hire, train, and dial the operation so execution matches the menu from day one, then stays consistent.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHAT I BUILD (PILLARS) ═══ -->
+<section class="pillars" id="work">
+  <div class="container">
+    <span class="section-label reveal">What I Build</span>
+    <h2 class="section-title reveal reveal-delay-1" style="font-size: clamp(36px, 5vw, 56px); color: var(--text-light);">End-to-End Programs</h2>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal">
+        <div class="pillar-number">01</div>
+        <h3 class="pillar-title">Beverage Program Design</h3>
+        <p class="pillar-desc">Concept-led beverage programs built end-to-end: menu architecture, specs, prep builds, and launch support.</p>
+      </div>
+      <div class="pillar-card reveal reveal-delay-1">
+        <div class="pillar-number">02</div>
+        <h3 class="pillar-title">Venue &amp; Bar Design Support</h3>
+        <p class="pillar-desc">Bar layout, station flow, tool selection, and build guidance that improves speed, consistency, and guest experience.</p>
+      </div>
+      <div class="pillar-card reveal reveal-delay-2">
+        <div class="pillar-number">03</div>
+        <h3 class="pillar-title">High Volume Execution</h3>
+        <p class="pillar-desc">Systems that hold up on busy nights: batching, prep standards, service steps, and training that protects quality.</p>
+      </div>
+      <div class="pillar-card reveal reveal-delay-3">
+        <div class="pillar-number">04</div>
+        <h3 class="pillar-title">Operational Control</h3>
+        <p class="pillar-desc">Costing, inventory, and purchasing systems that keep programs profitable and thriving over time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHO I WORK WITH ═══ -->
+<section class="clients">
+  <div class="container">
+    <div class="clients-grid">
+      <div class="clients-left">
+        <span class="section-label reveal">Who I Work With</span>
+        <h2 class="section-title reveal reveal-delay-1">The Right Fit</h2>
+        <p class="reveal reveal-delay-2">I work best with teams who want their beverage program to be as thoughtfully built as the space it lives in.</p>
+        <div class="reveal reveal-delay-3">
+          <a href="#contact" class="btn-outline" style="margin-top: 8px;">Let's Talk About Your Project</a>
+        </div>
+      </div>
+      <div class="client-accordion reveal">
+        <div class="accordion-item">
+          <button class="accordion-trigger" data-accordion>
+            Independent Restaurants &amp; Bars
+            <span class="accordion-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v12M1 7h12"/></svg></span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>Founders and operators building distinctive, high-quality beverage programs who want systems that scale without losing soul.</p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" data-accordion>
+            New Openings &amp; Rebuilds
+            <span class="accordion-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v12M1 7h12"/></svg></span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>Concept-to-launch support for venues that need clarity around layout, workflow, menus, and operational standards before opening day.</p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" data-accordion>
+            Hospitality Groups &amp; Multi-Venue Ops
+            <span class="accordion-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v12M1 7h12"/></svg></span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>Groups looking to standardize training, prep, purchasing, and inventory while keeping each venue's identity intact.</p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" data-accordion>
+            Owners Who Care About the Long Game
+            <span class="accordion-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v12M1 7h12"/></svg></span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>Operators focused on consistency, margins, and team development — not shortcuts or trends.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MY APPROACH ═══ -->
+<section class="approach" id="approach">
+  <div class="container">
+    <div class="approach-grid">
+      <div class="approach-left">
+        <span class="section-label reveal">My Approach</span>
+        <h2 class="section-title reveal reveal-delay-1">How I Work</h2>
+        <p class="reveal reveal-delay-2">I focus on practical decision-making: designing programs, spaces, and systems that support service, protect quality, and make the work easier for the teams running them. Creativity matters, but only when it's paired with execution that holds up over time.</p>
+      </div>
+      <div class="approach-steps reveal">
+        <div class="approach-step" data-approach>
+          <div class="approach-step-header">
+            <div class="approach-step-num">1</div>
+            <div class="approach-step-title">Understand the Reality</div>
+            <svg class="approach-step-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8l5 5 5-5"/></svg>
+          </div>
+          <div class="approach-step-body">
+            <div class="approach-step-body-inner">We start with how your operation actually runs today: space, volume, team, constraints, and goals.</div>
+          </div>
+        </div>
+        <div class="approach-step" data-approach>
+          <div class="approach-step-header">
+            <div class="approach-step-num">2</div>
+            <div class="approach-step-title">Design With Intent</div>
+            <svg class="approach-step-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8l5 5 5-5"/></svg>
+          </div>
+          <div class="approach-step-body">
+            <div class="approach-step-body-inner">Menus, systems, layouts, and standards are built to support the concept <em>and</em> the business — not fight either.</div>
+          </div>
+        </div>
+        <div class="approach-step" data-approach>
+          <div class="approach-step-header">
+            <div class="approach-step-num">3</div>
+            <div class="approach-step-title">Build for Service</div>
+            <svg class="approach-step-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8l5 5 5-5"/></svg>
+          </div>
+          <div class="approach-step-body">
+            <div class="approach-step-body-inner">Prep, batching, training, and execution are stress-tested for busy nights, not best-case scenarios.</div>
+          </div>
+        </div>
+        <div class="approach-step" data-approach>
+          <div class="approach-step-header">
+            <div class="approach-step-num">4</div>
+            <div class="approach-step-title">Support Through Launch and Beyond</div>
+            <svg class="approach-step-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8l5 5 5-5"/></svg>
+          </div>
+          <div class="approach-step-body">
+            <div class="approach-step-body-inner">I stay involved through opening, iteration, and refinement so the program holds up long-term. Every program I build is supported by <strong style="color: var(--text-dark);">Tipple Drinks</strong> — the operational toolkit I developed to keep recipes, prep systems, costing, and team workflows running consistently after I step back.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CAREER HIGHLIGHTS ═══ -->
+<section class="highlights">
+  <div class="container">
+    <div class="highlights-header">
+      <span class="section-label reveal">Career Highlights</span>
+    </div>
+    <div class="highlights-logos reveal reveal-delay-1">
+      <span class="highlights-logo-text">Good Thief</span>
+      <img src="assets/logo-harlo.png" alt="Harlo Entertainment" class="highlights-logo" loading="lazy">
+      <img src="assets/logo-tipple.png" alt="Tipple Drinks" class="highlights-logo" loading="lazy">
+      <img src="assets/logo-top30.png" alt="Top 30 Under 30" class="highlights-logo" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <span class="section-label reveal">Get in Touch</span>
+        <h2 class="section-title reveal reveal-delay-1">Let's Talk.</h2>
+        <p class="reveal reveal-delay-2">Whether you're planning a new concept, refining an existing program, or need experienced guidance, I'm happy to connect and explore what makes sense for your space.</p>
+      </div>
+      <form class="contact-form reveal" id="contactForm" onsubmit="return handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" name="firstName" placeholder="First name" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="lastName" placeholder="Last name" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" name="phone" placeholder="(604) 555-0000">
+        </div>
+        <div class="form-group">
+          <label>What services are you interested in?</label>
+          <div class="form-services">
+            <span class="service-tag" data-service>Program Design</span>
+            <span class="service-tag" data-service>Systems & Operational Build</span>
+            <span class="service-tag" data-service>Venue Design</span>
+            <span class="service-tag" data-service>Training & Launch Support</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tell me about your project</label>
+          <textarea name="message" placeholder="A few lines about your venue, timeline, and what you're looking for..."></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn-primary">
+            Send Message
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="footer-logo">Kingcoctions</span>
+    <span class="footer-right">Vancouver, BC · <a href="mailto:ben@kingcoctions.com">ben@kingcoctions.com</a></span>
+  </div>
+</footer>
+
+<script>
+// ─── Nav scroll ───
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ─── Mobile menu ───
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+// ─── Scroll reveal ───
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => revealObserver.observe(el));
+
+// ─── Accordions ───
+document.querySelectorAll('[data-accordion]').forEach(trigger => {
+  trigger.addEventListener('click', () => {
+    const item = trigger.parentElement;
+    const body = item.querySelector('.accordion-body');
+    const inner = body.querySelector('.accordion-body-inner');
+    const isOpen = item.classList.contains('open');
+    const parent = item.parentElement;
+    parent.querySelectorAll('.accordion-item.open').forEach(openItem => {
+      if (openItem !== item) {
+        openItem.classList.remove('open');
+        openItem.querySelector('.accordion-body').style.maxHeight = '0';
+      }
+    });
+    if (isOpen) {
+      item.classList.remove('open');
+      body.style.maxHeight = '0';
+    } else {
+      item.classList.add('open');
+      body.style.maxHeight = inner.scrollHeight + 'px';
+    }
+  });
+});
+
+// ─── Approach steps ───
+document.querySelectorAll('[data-approach]').forEach(step => {
+  step.addEventListener('click', () => {
+    const body = step.querySelector('.approach-step-body');
+    const inner = body.querySelector('.approach-step-body-inner');
+    const isOpen = step.classList.contains('open');
+    step.parentElement.querySelectorAll('.approach-step.open').forEach(openStep => {
+      if (openStep !== step) {
+        openStep.classList.remove('open');
+        openStep.querySelector('.approach-step-body').style.maxHeight = '0';
+      }
+    });
+    if (isOpen) {
+      step.classList.remove('open');
+      body.style.maxHeight = '0';
+    } else {
+      step.classList.add('open');
+      body.style.maxHeight = inner.scrollHeight + 'px';
+    }
+  });
+});
+
+// ─── Service tags ───
+document.querySelectorAll('[data-service]').forEach(tag => {
+  tag.addEventListener('click', () => tag.classList.toggle('active'));
+});
+
+// ─── Form submit ───
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.btn-primary');
+  btn.innerHTML = 'Sent! ✓';
+  btn.style.background = '#2d7a4f';
+  setTimeout(() => {
+    btn.innerHTML = 'Send Message <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+    btn.style.background = '';
+  }, 3000);
+  return false;
+}
+
+// ─── Smooth scroll ───
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      const y = target.getBoundingClientRect().top + window.pageYOffset - 72;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
