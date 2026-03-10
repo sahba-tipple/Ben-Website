@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kingcoctions — Cocktail Programs That Drive Revenue</title>
+<title>Ben Kingstone — Cocktail Programs That Drive Revenue</title>
 <meta name="description" content="Menu development, training, and launch support for operators who want better drinks, faster service, and stronger margins. Based in Vancouver.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1009,7 +1009,7 @@ body::after {
 <!-- ═══ NAVIGATION ═══ -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">Kingcoctions</a>
+    <a href="#" class="nav-logo">Ben Kingstone</a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
@@ -1424,7 +1424,7 @@ body::after {
 <!-- ═══ FOOTER ═══ -->
 <footer class="footer">
   <div class="container footer-inner">
-    <span class="footer-logo">Kingcoctions</span>
+    <span class="footer-logo">Ben Kingstone</span>
     <span class="footer-right">Vancouver, BC · <a href="mailto:ben@kingcoctions.com">ben@kingcoctions.com</a></span>
   </div>
 </footer>
@@ -1505,15 +1505,57 @@ document.querySelectorAll('[data-service]').forEach(tag => {
 });
 
 // ─── Form submit ───
-function handleSubmit(e) {
+async function handleSubmit(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('.btn-primary');
-  btn.innerHTML = 'Sent! ✓';
-  btn.style.background = '#2d7a4f';
-  setTimeout(() => {
-    btn.innerHTML = 'Send Message <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
-    btn.style.background = '';
-  }, 3000);
+  const form = e.target;
+  const btn = form.querySelector('.btn-primary');
+  const originalHTML = btn.innerHTML;
+
+  // Collect selected services
+  const services = [...form.querySelectorAll('.service-tag.active')]
+    .map(el => el.textContent).join(', ');
+
+  const data = {
+    firstName: form.firstName.value,
+    lastName: form.lastName.value,
+    email: form.email.value,
+    phone: form.phone.value,
+    services: services || 'None selected',
+    message: form.message.value,
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = 'Sending…';
+
+  try {
+    const res = await fetch('https://formspree.io/f/mykneagk', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (res.ok) {
+      btn.innerHTML = 'Sent! ✓';
+      btn.style.background = '#2d7a4f';
+      form.reset();
+      form.querySelectorAll('.service-tag').forEach(t => t.classList.remove('active'));
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 4000);
+    } else {
+      throw new Error('Server error');
+    }
+  } catch {
+    btn.innerHTML = 'Failed — try again';
+    btn.style.background = '#c0392b';
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 4000);
+  }
   return false;
 }
 
